@@ -1,6 +1,16 @@
-# this is very quick hacky pure python dataframe/series.
-# no index support
-# just useful for tabular datastructure
+"""tinypandas.py: 
+
+A pure python DataFrame based on https://github.com/lexual/babypandas
+
+"""
+    
+__author__           = "Dilawar Singh"
+__copyright__        = "Copyright 2017-, Dilawar Singh"
+__version__          = "1.0.0"
+__maintainer__       = "Dilawar Singh"
+__email__            = "dilawars@ncbs.res.in"
+__status__           = "Development"
+
 from operator import itemgetter
 
 # returns Series, not a list

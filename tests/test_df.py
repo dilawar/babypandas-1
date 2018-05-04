@@ -1,5 +1,5 @@
-from babypandas import DataFrame
-from babypandas import Series
+from tinypandas import DataFrame
+from tinypandas import Series
 
 
 class TestDF:
