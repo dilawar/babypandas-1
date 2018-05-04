@@ -17,6 +17,11 @@ class TestDF(unittest.TestCase):
     def test_construct_from_list_of_dicts(self):
         pass
 
+    def test_tocsv(self):
+        self.df['a'] = [1,2,3]
+        self.df['b'] = [0.3, 1e-34 ]
+        self.df.to_csv( 'test.csv' )
+
     def test_retrieve_column(self):
         assert self.df['a'] == [1, 3]
         assert self.df['b'] == ['banana', 'cat']

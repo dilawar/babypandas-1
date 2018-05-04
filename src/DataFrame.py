@@ -106,6 +106,7 @@ class DataFrame( ):
             self.columns = list(dict_list[0].keys())
 
     def __setitem__(self, key, item):
+        print( item )
         if hasattr(item, '__iter__') and not isinstance(key, (str,bytes)):
             self._data = [dict(row, **{key: x})
                           for row, x in zip(self._data, item)]
@@ -152,3 +153,14 @@ class DataFrame( ):
 
     def __len__(self):
         return len(self._data)
+
+    def to_csv(self, filename, **kwargs ):
+        # Write to csv file.
+        sep = kwargs.get( 'sep', ',' )
+        with open( filename, 'w' ) as f:
+            f.write( sep.join( self.columns ) + '\n')
+            for r in self._data:
+                line = [ ]
+                for k in self.columns:
+                    line.append( '%g' % self._data[k] )
+                f.write( sep.join(line) + '\n' )
