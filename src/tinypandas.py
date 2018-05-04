@@ -34,11 +34,10 @@ class Series(list):
 
     @return_series
     def __eq__(self, other):
-        if isinstance(other, str):
-            return [x == other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x == y for x, y in zip(self, other)]
-        raise NotImplementedError( "Unsupported key %s, type %s" % (other, type(other)))
+        else:
+            return [x == other for x in self]
 
     @return_series
     def __ne__(self, other):
@@ -46,20 +45,18 @@ class Series(list):
 
     @return_series
     def __lt__(self, other):
-        if isinstance(other, str):
-            result = [x < other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x < y for x, y in zip(self, other)]
+        else:
+            result = [x < other for x in self]
             return result
-        raise NotImplementedError( "Unsupported key %s, type %s" % (other, type(other)))
-
 
     @return_series
     def __gt__(self, other):
-        if isinstance(other, 'str'):
-            result = [x > other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x > y for x, y in zip(self, other)]
+        else:
+            result = [x > other for x in self]
             return result
         return [not x for x in self < other]
 
@@ -73,33 +70,36 @@ class Series(list):
 
     @return_series
     def __add__(self, other):
-        if isinstance(other, str):
-            return [x + other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x + y for x, y in zip(self, other)]
-        raise NotImplementedError( "Unsupported key %s, type %s" % (other, type(other)))
+        else:
+            return [x + other for x in self]
 
     @return_series
     def __mul__(self, other):
-        if isinstance(other, str):
-            return [x * other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x * y for x, y in zip(self, other)]
-        raise NotImplementedError( "Unsupported key %s, type %s" % (other, type(other)))
-            
+        else:
+            return [x * other for x in self]
 
     def __rmul__(self, other):
         return self.__mul__(other)
 
     @return_series
     def __div__(self, other):
-        if isinstance(other, str):
-            return [x / other for x in self]
-        elif hasattr(other, '__iter__'):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
             return [x / y for x, y in zip(self, other)]
-        raise NotImplementedError( "Unsupported key %s, type %s" % (other, type(other)))
+        else:
+            return [x / other for x in self]
 
-class DataFrame():
+    @return_series
+    def __truediv__(self, other):
+        if hasattr(other, '__iter__') and not isinstance(other, (str,bytes)):
+            return [x / y for x, y in zip(self, other)]
+        else:
+            return [x / other for x in self]
+
+class DataFrame( ):
 
     def __init__(self, dict_list=None):
         if dict_list is None:
@@ -110,18 +110,16 @@ class DataFrame():
             self.columns = list(dict_list[0].keys())
 
     def __setitem__(self, key, item):
-        if isinstance(key,str):
-            self._data = [dict(row, **{key: item}) for row in self._data]
-        elif hasattr(item, '__iter__'):
+        if hasattr(item, '__iter__') and not isinstance(key, (str,bytes)):
             self._data = [dict(row, **{key: x})
                           for row, x in zip(self._data, item)]
+        else:
+            self._data = [dict(row, **{key: item}) for row in self._data]
         if key not in self.columns:
             self.columns.append(key)
 
     def __getitem__(self, key):
-        if isinstance(key, str):
-            return Series([row[key] for row in self._data])
-        elif hasattr(key, '__iter__'):
+        if hasattr(key, '__iter__') and not isinstance(key, (str,bytes)):
             if isinstance(key[0], bool):
                 result = [x for x, y in zip(self._data, key) if y]
                 return self.__class__(result)
@@ -132,7 +130,7 @@ class DataFrame():
                         del result[col]
                 return result
         else:
-            raise NotImplementedError( "Unsupported key %s of type %s" % (key, type(key)))
+            return Series([row[key] for row in self._data])
 
     def __repr__(self):
         result = ['\t'.join(self.columns)]
