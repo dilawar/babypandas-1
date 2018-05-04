@@ -1,1 +1,1 @@
-from tinypandas import *
+from .tinypandas import DataFrame, Series

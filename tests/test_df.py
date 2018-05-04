@@ -1,10 +1,10 @@
 from tinypandas import DataFrame
 from tinypandas import Series
+import unittest
 
+class TestDF(unittest.TestCase):
 
-class TestDF:
-
-    def setup(self):
+    def setUp(self):
         self.data = [
             {'a': 1, 'b': 'banana', 'c': 33},
             {'a': 3, 'b': 'cat', 'c': 3},
@@ -117,3 +117,7 @@ class TestDF:
     def test_series_sum(self):
         assert self.df['a'].sum() == 4
         #print 1.0 * self.df['a'] / self.df['a'].sum()
+
+
+if __name__ == '__main__':
+    unittest.main()
