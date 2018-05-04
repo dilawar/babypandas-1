@@ -8,6 +8,17 @@ Both classes are tweaked to work with Python3 as well.
 """
 
 from operator import itemgetter
+try:
+    from itertools import zip_longest
+except ImportError as e:
+    from itertools import izip_longest as zip_longest
+
+def myzip(row, b):
+    if not row and b:
+        return {}, b
+    if row and not b:
+        return row, []
+
 
 # returns Series, not a list
 # mainly useful, so we can do chaining.
@@ -106,10 +117,9 @@ class DataFrame( ):
             self.columns = list(dict_list[0].keys())
 
     def __setitem__(self, key, item):
-        print( item )
-        if hasattr(item, '__iter__') and not isinstance(key, (str,bytes)):
+        if hasattr(item, '__iter__'):
             self._data = [dict(row, **{key: x})
-                          for row, x in zip(self._data, item)]
+                          for row, x in zip_longest(self._data, item,fillvalue={})]
         else:
             self._data = [dict(row, **{key: item}) for row in self._data]
         if key not in self.columns:
@@ -162,5 +172,5 @@ class DataFrame( ):
             for r in self._data:
                 line = [ ]
                 for k in self.columns:
-                    line.append( '%g' % self._data[k] )
+                    line.append( '%g' % r[k] )
                 f.write( sep.join(line) + '\n' )

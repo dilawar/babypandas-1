@@ -1,3 +1,6 @@
+import sys
+sys.path.append( '../src' )
+
 from tinypandas import DataFrame
 from tinypandas import Series
 import unittest

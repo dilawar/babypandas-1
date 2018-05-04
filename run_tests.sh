@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-PYTHONPATH=src python ./tests/test_df.py
+PYTHONPATH=src python -m tinypandas ./tests/test_df.py

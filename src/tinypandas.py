@@ -11,4 +11,4 @@ __maintainer__       = "Dilawar Singh"
 __email__            = "dilawars@ncbs.res.in"
 __status__           = "Development"
 
-from .DataFrame import DataFrame, Series 
+from DataFrame import DataFrame, Series 
