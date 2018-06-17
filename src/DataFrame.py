@@ -172,5 +172,5 @@ class DataFrame( ):
             for r in self._data:
                 line = [ ]
                 for k in self.columns:
-                    line.append( str(r[k]) )
+                    line.append( str(r.get(k,'')))
                 f.write( sep.join(line) + '\n' )

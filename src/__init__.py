@@ -1,2 +1,2 @@
-from tinypandas import DataFrame
-from tinypandas import Series
+from tinypandas.DataFrame import DataFrame
+from tinypandas.DataFrame import Series
